@@ -44,6 +44,7 @@ if __name__ == "__main__":
     parsers.add_argument('--use_kaiming_init', type=bool, default=True)
     
     parsers.add_argument('--batch_size', type=int, default=16)
+    parsers.add_argument('--num_anchors', type=int, default=20)
     parsers.add_argument('--test_batch_size', type=int, default=1)
     parsers.add_argument('--step_size', type=int, default=100)
     parsers.add_argument('--gamma', type=float, default=0.5)
