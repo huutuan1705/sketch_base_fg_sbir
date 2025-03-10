@@ -12,10 +12,10 @@ from torch.optim.lr_scheduler import StepLR
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def get_dataloader(args):
-    dataset_train = FGSBIR_Dataset(args, mode='train')
+    dataset_train = FGSBIR_Dataset(args, mode='train', on_fly=True)
     dataloader_train = data.DataLoader(dataset_train, batch_size=args.batch_size, shuffle=True, num_workers=int(args.threads))
     
-    dataset_test = FGSBIR_Dataset(args, mode='test')
+    dataset_test = FGSBIR_Dataset(args, mode='test', on_fly=True)
     dataloader_test = data.DataLoader(dataset_test, batch_size=args.test_batch_size, shuffle=False, num_workers=int(args.threads))
     
     return dataloader_train, dataloader_test
