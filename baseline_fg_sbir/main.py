@@ -34,6 +34,7 @@ if __name__ == "__main__":
     parsers.add_argument('--attention_pretrained', type=str, default='./../')
     parsers.add_argument('--linear_pretrained', type=str, default='./../')
     parsers.add_argument('--pretrained', type=str, default='./../')
+    parsers.add_argument('--pretrained_dir', type=str, default='./../')
     
     parsers.add_argument('--is_train', type=bool, default=True)
     parsers.add_argument('--load_pretrained', type=bool, default=False)
@@ -60,7 +61,15 @@ if __name__ == "__main__":
     model.to(device)
     if args.load_pretrained:
         model.load_state_dict(torch.load(args.pretrained))
-    
+    else:
+        backbones_state = torch.load(args.pretrained_dir + "/" + args.dataset_name + "_backbone.pth")
+        attention_state = torch.load(args.pretrained_dir + "/" + args.dataset_name + "_attention.pth")
+        linear_state = torch.load(args.pretrained_dir + "/" + args.dataset_name + "_linear.pth")
+        
+        model.sample_embedding_network.load_state_dict(backbones_state['sample_embedding_network'])
+        model.attention.load_state_dict(attention_state['attention'])
+        model.linear.load_state_dict(linear_state['linear'])
+
     step_count, top1, top5, top10, meanA, meanB = -1, 0, 0, 0, 0, 0
     
     # scheduler = StepLR(model.optimizer, step_size=args.step_size, gamma=args.gamma)
