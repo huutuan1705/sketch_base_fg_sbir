@@ -77,9 +77,9 @@ class FGSBIR_Model(nn.Module):
             sketch_features_all = torch.FloatTensor().to(device)
             for data_sketch in batch['sketch_imgs']:
                 # print(data_sketch.shape) # (1, 3, 299, 299)
-                sketch_feature = self.attention(
+                sketch_feature = self.linear(self.attention(
                     self.sample_embedding_network(data_sketch.to(device))
-                )
+                ))
                 # print("sketch_feature.shape: ", sketch_feature.shape) #(1, 2048)
                 sketch_features_all = torch.cat((sketch_features_all, sketch_feature.detach()))
             
@@ -110,7 +110,7 @@ class FGSBIR_Model(nn.Module):
             position_query = image_names.index(sketch_query_name)
             
             for i_sketch in range(sampled_batch.shape[0]):
-                target_distance = F.pairwise_distance(sampled_batch.unsqueeze(0).to(device), image_array_tests[position_query].unsqueeze(0).to(device))
+                target_distance = F.pairwise_distance(sampled_batch[i_sketch].unsqueeze(0).to(device), image_array_tests[position_query].unsqueeze(0).to(device))
                 distance = F.pairwise_distance(sampled_batch.unsqueeze(0).to(device), image_array_tests.to(device))
                 
                 rank_all[i_batch, i_sketch] = distance.le(target_distance).sum()
