@@ -94,14 +94,11 @@ if __name__ == "__main__":
                 torch.save(
                     {
                         'sample_embedding_network': model.sample_embedding_network.state_dict(),
-                        'sketch_embedding_network': model.sketch_embedding_network.state_dict(),
                     }, args.dataset_name + '_bacbkbone.pth')
                 
                 torch.save({'attention': model.attention.state_dict(),
-                            'sketch_attention': model.sketch_attention.state_dict(),
                             }, args.dataset_name + '_attention.pth')
                 torch.save({'linear': model.linear.state_dict(),
-                            'sketch_linear': model.sketch_linear.state_dict(),
                             }, args.dataset_name + '_linear.pth')
                 
             torch.save(model.state_dict(), "last_model.pth")
