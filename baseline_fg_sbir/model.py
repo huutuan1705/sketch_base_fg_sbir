@@ -111,7 +111,7 @@ class FGSBIR_Model(nn.Module):
             
             for i_sketch in range(sampled_batch.shape[0]):
                 target_distance = F.pairwise_distance(sampled_batch[i_sketch].unsqueeze(0).to(device), image_array_tests[position_query].unsqueeze(0).to(device))
-                distance = F.pairwise_distance(sampled_batch.unsqueeze(0).to(device), image_array_tests.to(device))
+                distance = F.pairwise_distance(sampled_batch[i_sketch].unsqueeze(0).to(device), image_array_tests.to(device))
                 
                 rank_all[i_batch, i_sketch] = distance.le(target_distance).sum()
 
